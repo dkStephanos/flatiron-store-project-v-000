@@ -1,3 +1,5 @@
+require 'pry'
+
 describe 'Feature Test: Store', :type => :feature do
     describe "Category List" do
       it "displays all of the categories as links" do
@@ -14,12 +16,13 @@ describe 'Feature Test: Store', :type => :feature do
         second_item.inventory = 0
         second_item.save
         visit store_path
+        
         Item.all.each do |item|
           if item == second_item
             expect(page).to_not have_content item.title
           else
             expect(page).to have_content item.title
-            expect(page).to have_content "$#{item.price.to_f/100}"
+            expect(page).to have_content "$#{item.price}"
           end
         end
       end
@@ -53,7 +56,7 @@ describe 'Feature Test: Store', :type => :feature do
 
         it 'has a sign in link' do
           visit store_path
-          expect(page).to have_link("sign in")
+          expect(page).to have_link("Sign in")
         end
 
         it 'has a sign up link' do
@@ -83,7 +86,7 @@ describe 'Feature Test: Store', :type => :feature do
           visit store_path
           click_link("Sign out")
           expect(page.current_path).to eq(store_path)
-          expect(page).to have_link("sign in")
+          expect(page).to have_link("Sign in")
         end
       end
 
